@@ -2,8 +2,8 @@
 """Returns information for a given employee ID using a REST API"""
 
 import requests
-from sys import argv
 import csv
+from sys import argv
 
 API_URL = "https://jsonplaceholder.typicode.com/"
 
@@ -20,14 +20,14 @@ if __name__ == "__main__":
     # Create CSV file
     csv_filename = f"{user_id}.csv"
 
-    with open(csv_filename, "w", newline="") as csv_file:
+    with open(csv_filename, mode="w") as csv_file:
         csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
 
-        # Write header
-        csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
-                            "TASK_TITLE"])
-
-        # Write data rows
-        for todo in todo_list:
-            csv_writer.writerow([user_id, user["username"], todo["completed"],
-                                todo["title"]])
+        # Write into the csv file
+        for task in todo_list:
+            csv_writer.writerow([
+                user['id'],
+                user['username'],
+                task['completed'],
+                task['title']
+            ])
