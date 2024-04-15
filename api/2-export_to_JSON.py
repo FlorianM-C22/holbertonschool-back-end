@@ -4,13 +4,13 @@ import json
 import requests
 from sys import argv, exit
 
+API_URL = "https://jsonplaceholder.typicode.com"
 
 if __name__ == "__main__":
-    API_URL = "https://jsonplaceholder.typicode.com"
-    EMPLOYEE_ID = argv[1]
+    user_id = argv[1]
 
     response = requests.get(
-        f"{API_URL}/users/{EMPLOYEE_ID}/todos",
+        f"{API_URL}/users/{user_id}/todos",
         params={"_expand": "user"}
     )
     data = response.json()
@@ -19,14 +19,14 @@ if __name__ == "__main__":
         print("RequestError:", 404)
         exit(1)
 
-    user_tasks = {EMPLOYEE_ID: []}
+    user_tasks = {user_id: []}
     for task in data:
         task_dict = {
             "task": task["title"],
             "completed": task["completed"],
             "username": task["user"]["username"]
         }
-        user_tasks[EMPLOYEE_ID].append(task_dict)
+        user_tasks[user_id].append(task_dict)
 
-    with open(f"{EMPLOYEE_ID}.json", "w") as file:
+    with open(f"{user_id}.json", "w") as file:
         json.dump(user_tasks, file)
